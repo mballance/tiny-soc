@@ -1,0 +1,6 @@
+
+menu "tiny_soc"
+
+rsource "drivers/Kconfig"
+
+endmenu

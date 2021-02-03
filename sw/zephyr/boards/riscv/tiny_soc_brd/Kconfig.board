@@ -1,0 +1,6 @@
+
+config BOARD_TINY_SOC_BRD
+	bool "tiny_soc SoC"
+	depends on SOC_TINY_SOC
+	
+	

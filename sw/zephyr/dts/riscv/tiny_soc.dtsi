@@ -1,0 +1,7 @@
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+	compatible = "mballance,tiny_soc_brd";
+	riscv,isa = "rv32i";
+};

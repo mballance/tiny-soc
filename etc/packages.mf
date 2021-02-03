@@ -1,0 +1,15 @@
+#****************************************************************************
+#* packages.mf
+#* Project: tiny-soc
+#****************************************************************************
+
+zephyr@https://github.com/zephyrproject-rtos/zephyr/archive/zephyr-v2.4.0.tar.gz
+
+fw-wishbone-interconnect@ssh://github.com:featherweight-ip/fw-wishbone-interconnect.git
+fwprotocol-defs@ssh://github.com:featherweight-ip/fwprotocol-defs.git
+fwpic@ssh://github.com:featherweight-ip/fwpic.git
+fwpit@ssh://github.com:featherweight-ip/fwpit.git
+fwuart-16550@ssh://github.com:featherweight-ip/fwuart-16550.git
+fwrisc@ssh://github.com:featherweight-ip/fwrisc.git
+fwperiph-dma@ssh://github.com:featherweight-ip/fwperiph-dma.git
+

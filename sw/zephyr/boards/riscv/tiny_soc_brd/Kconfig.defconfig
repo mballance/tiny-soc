@@ -1,0 +1,5 @@
+
+config BOARD
+	default "tiny_soc_brd"
+	depends on BOARD_TINY_SOC_BRD
+	

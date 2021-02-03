@@ -1,0 +1,74 @@
+
+/dts-v1/;
+
+#include <tiny_soc.dtsi>
+
+/ {
+    
+	chosen {
+		zephyr,sram = &ram;
+	};
+
+/*
+ */
+	cpus {	
+		#address-cells = <1>;
+		#size-cells = <0>;
+		
+		core0: core@0 {
+			compatible = "fwrisc";
+			/*
+			#interrupt-cells = <1>;
+			interrupts = <0>;
+			 */
+			reg = <0>;
+			/*
+			interrupt-controller;
+			 */
+		};
+		
+	};
+
+	ram: memory@80000000 {
+		compatible = "mmio-sram";
+		reg = <0x80000000 0x8000>;
+	};
+	
+	pic: fw_pic@40003000 {
+		compatible = "fw_pic";
+		label = "pic";
+
+/*	
+	    interrupts = <0>;
+ */
+		reg = <0x40003000 0x1000>;
+		#interrupt-cells = <1>;
+		
+		interrupt-controller;
+	    num-irqs = <8>;
+	    /*
+	    interrupt-parent = <&core0>;
+	    */
+	    irq = <7>;
+	    
+	};
+
+    timer: fw_pit@40001234  {
+        compatible = "fw_pit";
+        reg = <0x40004000 0x1000>;
+        interrupts = <2>;
+	    interrupt-parent = <&pic>;
+        timer;
+    };
+
+	dma1: fw_periph_dma@40001000 {
+		compatible = "fw_periph_dma";
+		label = "dma1";
+		reg = <0x40001000 0x1000>;
+		interrupts = <1>;
+	    interrupt-parent = <&pic>;
+		dma;
+	};
+
+
+};
