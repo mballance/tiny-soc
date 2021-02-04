@@ -40,22 +40,27 @@ module tiny_soc(
 		 * - 
 		 */
 		localparam N_INITIATORS = 4;
-		localparam N_TARGETS    = 5;
+		localparam N_TARGETS    = 2;
 		localparam I_FWI_IDX    = 0;
 		localparam I_FWD_IDX    = (I_FWI_IDX+1);
 		localparam I_DMA_I0_IDX = (I_FWD_IDX+1);
 		localparam I_DMA_I1_IDX = (I_DMA_I0_IDX+1);
 		
 		localparam T_BRAM_IDX = 0;
-		localparam T_DMA_IDX  = (T_BRAM_IDX+1);
-		localparam T_UART_IDX = (T_DMA_IDX+1);
-		localparam T_PIC_IDX  = (T_UART_IDX+1);
-		localparam T_PIT_IDX  = (T_PIC_IDX+1);
+		localparam T_REG_IDX = (T_BRAM_IDX+1);
+	
+		localparam N_R_TARGETS = 4;
+		localparam TR_DMA_IDX  = 0;
+		localparam TR_UART_IDX = (TR_DMA_IDX+1);
+		localparam TR_PIC_IDX  = (TR_UART_IDX+1);
+		localparam TR_PIT_IDX  = (TR_PIC_IDX+1);
 		
 		`WB_WIRES_ARR(i2ic_, 32, 32, N_INITIATORS);
 		`WB_WIRES_ARR(ic2t_, 32, 32, N_TARGETS);
 		
-		// TODO: fwrisc core
+		`WB_WIRES_ARR(i2ric_, 32, 32, N_INITIATORS);
+		`WB_WIRES_ARR(ric2t_, 32, 32, N_R_TARGETS);
+		
 		`WB_WIRES(fwi2ic_, 32, 32);
 		`WB_WIRES(fwi2dc_, 32, 32);
 
@@ -79,9 +84,9 @@ module tiny_soc(
 			) u_dma (
 			.clock       (clock      ), 
 			.reset       (reset      ), 
-			`WB_CONNECT_ARR(rt_, ic2t_, T_DMA_IDX, 32, 32),
-			`WB_CONNECT_ARR(i0_, i2ic_, I_DMA_I0_IDX, 32, 32),
-			`WB_CONNECT_ARR(i1_, i2ic_, I_DMA_I1_IDX, 32, 32),
+			`WB_CONNECT_ARR(rt_, ric2t_, TR_DMA_IDX, 32, 32),
+			`WB_CONNECT_ARR(i0_, i2ic_,  I_DMA_I0_IDX, 32, 32),
+			`WB_CONNECT_ARR(i1_, i2ic_,  I_DMA_I1_IDX, 32, 32),
 			.dma_req_i   (dma_req_i  ), 
 			.dma_ack_o   (dma_ack_o  ), 
 			.dma_nd_i    (dma_nd_i   ), 
@@ -94,7 +99,7 @@ module tiny_soc(
 		fwuart_16550_wb u_uart (
 			.clock     (clock    ), 
 			.reset     (reset    ), 
-			`WB_CONNECT_ARR(rt_, ic2t_, T_UART_IDX, 32, 32),
+			`WB_CONNECT_ARR(rt_, ric2t_, TR_UART_IDX, 32, 32),
 			.irq       (uart_irq ), 
 			.tx_o      (tx_o     ), 
 			.rx_i      (rx_i     ), 
@@ -110,7 +115,7 @@ module tiny_soc(
 			) fwpit_wb (
 			.clock           (clock          ), 
 			.reset           (reset          ), 
-			`WB_CONNECT_ARR(rt_, ic2t_, T_PIT_IDX, 32, 32),
+			`WB_CONNECT_ARR(rt_, ric2t_, TR_PIT_IDX, 32, 32),
 			.irq             (pit_irq        ));
 	
 		wire[7:0] pic_irq = {
@@ -128,7 +133,7 @@ module tiny_soc(
 			) u_pic (
 				.clock     (clock    ), 
 				.reset     (reset    ), 
-				`WB_CONNECT_ARR(rt_, ic2t_, T_PIC_IDX, 32, 32),
+				`WB_CONNECT_ARR(rt_, ric2t_, TR_PIC_IDX, 32, 32),
 				.int_o     (core_irq ), 
 				.irq       (pic_irq  ));
 		
@@ -140,17 +145,11 @@ module tiny_soc(
 				.N_TARGETS(N_TARGETS),
 				.T_ADR_MASK({
 						32'hFF00_0000,
-						32'hFFFF_F000,
-						32'hFFFF_F000,
-						32'hFFFF_F000,
-						32'hFFFF_F000
+						32'hFFFF_0000
 					}),
 				.T_ADR({
 					32'h8000_0000, // BRAM
-					32'h4000_1000, // DMA
-					32'h4000_2000, // UART
-					32'h4000_3000, // PIC
-					32'h4000_4000  // PIT
+					32'h4000_0000  // Peripherals
 					})
 			) u_ic (
 				.clock(			clock),
@@ -178,6 +177,31 @@ module tiny_soc(
 				ic2bram_ack_r <= 1;
 			end
 		end
+	
+		// Register interconnect
+		wb_interconnect_NxN #(
+				.WB_ADDR_WIDTH(32),
+				.WB_DATA_WIDTH(32),
+				.N_TARGETS(4),
+				.N_INITIATORS(1),
+				.T_ADR_MASK({
+						32'hFFFF_F000,
+						32'hFFFF_F000,
+						32'hFFFF_F000,
+						32'hFFFF_F000
+					}),
+				.T_ADR({
+					32'h4000_1000, // DMA
+					32'h4000_2000, // UART
+					32'h4000_3000, // PIC
+					32'h4000_4000  // PIT
+					})
+			) u_regic (
+				.clock(			clock),
+				.reset(			reset),
+				`WB_CONNECT_ARR(, ic2t_, T_REG_IDX, 32, 32),
+				`WB_CONNECT(t, ric2t_)
+			);
 
 endmodule
 

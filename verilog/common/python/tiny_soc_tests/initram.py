@@ -22,7 +22,7 @@ async def test(top):
     sw_image = cocotb.plusargs["sw.image"]
     u_dbg_bfm.load_elf(sw_image)
     u_dbg_bfm.set_trace_level(RiscvDebugTraceLevel.All)
-    
+
     ram_console = 0
     ram_console_sz = 0
 

@@ -54,16 +54,16 @@ ZEPHYR_DTS_ROOT += $(TINY_SOC_DIR)/sw/zephyr
 ZEPHYR_DTS_ROOT += $(ZEPHYR_MODULES)
 
 $(MKDV_RUNDIR)/%/zephyr/zephyr.elf : $(TEST_DIR)/tests/%/src/main.c
-	rm -rf $*
-	mkdir $*
-	cd $* ; ZEPYHR_BASE=$(ZEPHYR_BASE) cmake $(abspath $(^)/../..) \
+	rm -rf $(MKDV_RUNDIR)/$*
+	mkdir $(MKDV_RUNDIR)/$*
+	cd $(MKDV_RUNDIR)/$* ; ZEPYHR_BASE=$(ZEPHYR_BASE) cmake $(abspath $(^)/../..) \
                 -DBOARD=tiny_soc_brd \
                 -DBOARD_ROOT=$(TINY_SOC_DIR)/sw/zephyr \
                 -DSOC_ROOT=$(TINY_SOC_DIR)/sw/zephyr \
                 -DDTS_ROOT="$(subst $(eval) ,;,$(ZEPHYR_DTS_ROOT))" \
                 -DCMAKE_C_FLAGS="-DSIMULATION_MODE -march=rv32i" \
 				-DZEPHYR_MODULES="$(subst $(eval) ,;,$(ZEPHYR_MODULES))"
-	cd $* ; $(MAKE)
+	cd $(MKDV_RUNDIR)/$* ; $(MAKE)
 
 #		-DVERBOSE=true --debug-output --trace \
 #		-DZEPHYR_EXTRA_MODULES=$(ZEPHYR_EXTRA_MODULES)

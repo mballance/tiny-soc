@@ -19,9 +19,9 @@ module tiny_soc_tb(input clock);
 	initial begin
 		forever begin
 `ifdef NEED_TIMESCALE
-			#10;
+			#5;
 `else
-			#10ns;
+			#5ns;
 `endif
 			clock_r <= ~clock_r;
 		end
