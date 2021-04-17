@@ -9,19 +9,28 @@ TOP_MODULE = tiny_soc_tb
 MKDV_TIMEOUT ?= 4ms
 
 MKDV_PLUGINS += cocotb pybfms
-PYBFMS_MODULES += generic_sram_bfms riscv_debug_bfms
+PYBFMS_MODULES += generic_sram_bfms riscv_debug_bfms uart_bfms
 
 MKDV_TEST ?= zephyr.dma_xfer_smoke
 
 
-#SW_IMAGE ?= $(MKDV_RUNDIR)/hello_world/zephyr/zephyr.elf
-#SW_IMAGE ?= $(MKDV_RUNDIR)/print_ex/zephyr/zephyr.elf
 ifeq (,$(SW_IMAGE))
     ifneq (,$(findstring zephyr,$(subst ., ,$(MKDV_TEST))))
 	SW_IMAGE = $(MKDV_RUNDIR)/$(subst .,_,$(subst zephyr.,,$(MKDV_TEST)))/zephyr/zephyr.elf
     endif
+    ifneq (,$(findstring baremetal,$(subst ., ,$(MKDV_TEST))))
+	SW_IMAGE = $(MKDV_RUNDIR)/$(subst .,_,$(subst baremetal.,,$(MKDV_TEST))).elf
+    endif
 endif
-MKDV_COCOTB_MODULE = tiny_soc_tests.initram
+
+ifeq (,$(MKDV_COCOTB_MODULE))
+    ifneq (,$(findstring zephyr,$(subst ., ,$(MKDV_TEST))))
+		MKDV_COCOTB_MODULE = tiny_soc_tests.initram
+    endif
+    ifneq (,$(findstring baremetal,$(subst ., ,$(MKDV_TEST))))
+		MKDV_COCOTB_MODULE = tiny_soc_tests.baremetal
+    endif
+endif
 
 VLSIM_CLKSPEC += clock=10ns
 VLSIM_OPTIONS += -Wno-fatal
@@ -31,6 +40,7 @@ VLSIM_OPTIONS += -Wno-fatal
 
 MKDV_RUN_DEPS += $(SW_IMAGE)
 MKDV_RUN_ARGS += +sw.image=$(SW_IMAGE)
+
 
 include $(TEST_DIR)/../common/defs_rules.mk
 
@@ -72,6 +82,17 @@ $(MKDV_RUNDIR)/%.elf : $(TEST_DIR)/%.S
 	$(Q)$(RISCV_CC) -o $@ $^ -march=rv32i \
 		-static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles \
 		-T$(TEST_DIR)/unit.ld
+
+$(MKDV_RUNDIR)/%.elf : $(TEST_DIR)/tests/baremetal/%.c
+	$(Q)$(RISCV_CC) -o $@ \
+		$(BAREMETAL_CFLAGS) \
+		$(BAREMETAL_SRCS) \
+		$(TEST_DIR)/tests/baremetal/$*.c \
+		$(TEST_DIR)/../common/sw/crt0.S \
+		-DBSS_CLEARED \
+		-march=rv32i \
+		-static -mcmodel=medany -nostartfiles \
+		-T$(TEST_DIR)/../common/sw/baremetal.ld
 
 
 include $(TEST_DIR)/../common/defs_rules.mk

@@ -13,6 +13,11 @@ DV_MK := $(shell PATH=$(PACKAGES_DIR)/python/bin:$(PATH) python -m mkdv mkfile)
 
 ifneq (1,$(RULES))
 
+BAREMETAL_SRCS += $(TEST_DIR)/../common/sw/baremetal_support.c
+BAREMETAL_SRCS += $(PACKAGES_DIR)/pybfms-uart/src/uart_bfms/share/sw/c/uart_bfm.c
+BAREMETAL_CFLAGS += -I$(TEST_DIR)/../common/sw
+BAREMETAL_CFLAGS += -I$(PACKAGES_DIR)/pybfms-uart/src/uart_bfms/share/sw/c
+
 include $(TINY_SOC_DIR)/verilog/rtl/defs_rules.mk
 include $(TINY_SOC_DIR)/sw/defs_rules.mk
 

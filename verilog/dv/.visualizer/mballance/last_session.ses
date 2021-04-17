@@ -1,61 +1,61 @@
 <!-- THIS IS TOOL GENERATED SESSION FILE. PLEASE DO NOT MODIFY THIS -->
 <!DOCTYPE visualizer_session>
-<session skip_do_file="0" featureversion="0.3" version="0.2">
+<session skip_do_file="0" version="0.2" featureversion="0.3">
  <app argc="5">
-  <argv value="/project/tools/questa/2020.4/visualizer/bin/../linux_x86_64/Visualizer/bin/hdlclient" pos="0"/>
-  <argv value="-designfile" pos="1"/>
-  <argv value="cache/questa/design.bin" pos="2"/>
-  <argv value="-wavefile" pos="3"/>
-  <argv value="rundir/qwave.db" pos="4"/>
+  <argv pos="0" value="/project/tools/questa/2020.4/visualizer/bin/../linux_x86_64/Visualizer/bin/hdlclient"/>
+  <argv pos="1" value="-designfile"/>
+  <argv pos="2" value="cache/questa/design.bin"/>
+  <argv pos="3" value="-wavefile"/>
+  <argv pos="4" value="rundir/qwave.db"/>
  </app>
  <window_config>
-  <dockareas bottom="169" top="0" left="528" right="450"/>
-  <taborder bottom="transcript+cone+" left="structure+"/>
-  <activetab bottom="cone" activewindow="transcript" left="structure"/>
-  <window dock_location="bottom" visible="1" x="0" type="transcript" y="0" undocked="0"/>
-  <window dock_location="bottom" visible="1" x="0" type="cone" y="0" undocked="0"/>
-  <window dock_location="left" visible="1" x="0" type="structure" y="0" undocked="0"/>
-  <window width="2061" visible="1" x="47" type="rtl" height="1101" y="27" undocked="0"/>
-  <window dock_location="left" visible="0" x="0" type="testbench" y="0" undocked="0"/>
-  <window dock_location="bottom" width="2913" visible="1" x="125" type="wave" height="1207" y="71" undocked="1"/>
-  <window dock_location="bottom" width="1920" id="1" visible="0" x="0" type="wave" height="1029" y="27" undocked="1"/>
-  <window dock_location="center" visible="1" x="0" type="source" y="0" undocked="0"/>
-  <window dock_location="center" id="1" visible="0" x="0" type="source" y="0" undocked="0"/>
-  <window dock_location="center" id="2" visible="0" x="0" type="source" y="0" undocked="0"/>
-  <window dock_location="center" id="3" visible="0" x="0" type="source" y="0" undocked="0"/>
-  <window dock_location="center" id="4" visible="0" x="0" type="source" y="0" undocked="0"/>
-  <window dock_location="center" id="5" visible="0" x="0" type="source" y="0" undocked="0"/>
-  <window dock_location="center" id="6" visible="0" x="0" type="source" y="0" undocked="0"/>
+  <dockareas right="450" top="0" left="528" bottom="169"/>
+  <taborder left="structure+" bottom="transcript+cone+"/>
+  <activetab activewindow="transcript" left="structure" bottom="transcript"/>
+  <window visible="1" type="transcript" x="0" undocked="0" dock_location="bottom" y="0"/>
+  <window visible="1" type="cone" x="0" undocked="0" dock_location="bottom" y="0"/>
+  <window visible="1" type="structure" x="0" undocked="0" dock_location="left" y="0"/>
+  <window visible="1" type="rtl" x="47" width="2061" height="1101" undocked="0" y="27"/>
+  <window visible="0" type="testbench" x="0" undocked="0" dock_location="left" y="0"/>
+  <window visible="1" type="wave" x="125" width="2913" height="1207" undocked="1" dock_location="bottom" y="71"/>
+  <window visible="0" type="wave" x="0" width="1920" height="1029" undocked="1" dock_location="bottom" id="1" y="27"/>
+  <window visible="1" type="source" x="0" undocked="0" dock_location="center" y="0"/>
+  <window visible="0" type="source" x="0" undocked="0" dock_location="center" id="1" y="0"/>
+  <window visible="0" type="source" x="0" undocked="0" dock_location="center" id="2" y="0"/>
+  <window visible="0" type="source" x="0" undocked="0" dock_location="center" id="3" y="0"/>
+  <window visible="0" type="source" x="0" undocked="0" dock_location="center" id="4" y="0"/>
+  <window visible="0" type="source" x="0" undocked="0" dock_location="center" id="5" y="0"/>
+  <window visible="0" type="source" x="0" undocked="0" dock_location="center" id="6" y="0"/>
  </window_config>
  <wave_file_mgr>
   <waveFile fileName="/project/fun/tiny-soc/tiny-soc/verilog/dv/rundir/qwave.db" tagName="F0" waveType="0"/>
  </wave_file_mgr>
  <gui>
   <main_window visible="1">
-   <srcbrowser instancename="tiny_soc_tb"/>
+   <srcbrowser primary="true" instancename="tiny_soc_tb"/>
    <sourcetclcommands>
     <tcl command="src activate source"/>
     <tcl command="src top 6"/>
    </sourcetclcommands>
    <edge_gui cur_selection="AnyEdge"/>
   </main_window>
-  <watchTower_cur_setting curDisplayTimeUnit="-6" curDisplayTimeUnitStr="1us" curActiveWaveFile="F0" customDisplayTimeUnitListStr="" curRadix="8">
+  <watchTower_cur_setting customDisplayTimeUnitListStr="" curDisplayTimeUnitStr="1us" curRadix="8" curActiveWaveFile="F0" curDisplayTimeUnit="-6">
    <curTime lowtime="2515650" hightime="0"/>
   </watchTower_cur_setting>
   <drv_rec_data drivers="true"/>
   <transcript>
-   <window width="2061" x="-2561" height="197" y="-697"/>
+   <window x="0" width="2061" height="169" y="879"/>
   </transcript>
-  <cone zoom_and_center="0" trace_action="0" value_tooltip="0" show_values="0" upf_action="0" src_sync="1" id="0" clock_domain="0" wf_diff="0" time_sync="1" grey_mode="0">
+  <cone wf_diff="0" upf_action="0" time_sync="1" zoom_and_center="0" value_tooltip="0" grey_mode="0" trace_action="0" src_sync="1" clock_domain="0" show_values="0" id="0">
    <flop_level_combo flop_level_cur_item="0"/>
    <extend_level_combo extend_level_cur_item="0"/>
    <max_level_combo max_level_cur_value="100"/>
    <cone_point_drop_site1 cur_item="-1"/>
    <cone_point_drop_site2 cur_item="-1"/>
-   <cur_viewport zoom_factor="zoom: no current page" scroll_pos="scrollpos: no current page" page_num="page: no current page"/>
+   <cur_viewport scroll_pos="scrollpos: no current page" zoom_factor="zoom: no current page" page_num="page: no current page"/>
   </cone>
   <structure>
-   <window width="528" x="0" height="815" y="58"/>
+   <window x="0" width="528" height="815" y="58"/>
   </structure>
   <wave name="Wave0">
    <timeunit value="8"/>
@@ -63,11 +63,11 @@
    <showdiff value="0"/>
   </wave>
   <source>
-   <window width="1523" x="0" height="811" y="0"/>
+   <window x="0" width="1523" height="811" y="0"/>
   </source>
  </gui>
  <wave_mgr sync_time_range="0">
-  <waveWindow alignBaseName="0" primNudge="1" trackViewToTime="1" showMarkers="1" displayFileTag="1" displayGrid="0" showSecCursor="1" wintype="4" snapToEdge="1" value_tooltip="0" signalHeight="18" displayScopeName="1" displayLeadingZeros="0" waveWidth="2178" displayTimeUnit="-6" secNudge="1" nameWidth="471" displayTimeUnitStr="1us" displayGlobalView="1" displayRadixWithValue="0" swapRepresentationOfX="0" valueWidth="219">
+  <waveWindow displayLeadingZeros="0" waveWidth="2179" wintype="4" displayScopeName="1" swapRepresentationOfX="0" nameWidth="470" valueWidth="219" displayTimeUnit="-6" value_tooltip="0" trackViewToTime="1" secNudge="1" snapToEdge="1" displayGlobalView="1" displayTimeUnitStr="1us" showMarkers="1" displayGrid="0" alignBaseName="0" showSecCursor="1" displayRadixWithValue="0" signalHeight="18" primNudge="1" displayFileTag="1">
    <window name="Wave0">
     <timeunit value="8"/>
     <frequnit value="2"/>
@@ -75,14 +75,14 @@
    </window>
    <viewPort>
     <beginTime lowtime="0" hightime="0"/>
-    <endTime lowtime="4000000" hightime="0"/>
-    <beginViewTime lowtime="819366" hightime="0"/>
-    <endViewTime lowtime="4000000" hightime="0"/>
-    <beginLastViewTime lowtime="819366" hightime="0"/>
-    <endLastViewTime lowtime="4000000" hightime="0"/>
+    <endTime lowtime="2123076" hightime="0"/>
+    <beginViewTime lowtime="333704" hightime="0"/>
+    <endViewTime lowtime="2123076" hightime="0"/>
+    <beginLastViewTime lowtime="333704" hightime="0"/>
+    <endLastViewTime lowtime="2123076" hightime="0"/>
    </viewPort>
    <primCursor lowtime="2515650" hightime="0"/>
-   <secCursor lowtime="3051404" hightime="0"/>
+   <secCursor lowtime="2122105" hightime="0"/>
    <wavetclcommands>
     <tcl command="onerror resume&#xa;wave update off&#xa;wave clearselection&#xa;"/>
     <tcl commandblock="custom radix definitions"></tcl>
@@ -133,7 +133,7 @@
     <tcl command="wave group tiny_soc_tb.u_dut.u_ic -backgroundcolor #004466"/>
     <tcl command="wave insertion [expr [wave index insertpoint] + 1]"/>
     <tcl command="wave add tiny_soc_tb.u_dut.u_ic.initiator_target_sel -tag F0 -radix hexadecimal -expand -subitemconfig { {tiny_soc_tb.u_dut.u_ic.initiator_target_sel[3]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.initiator_target_sel[2]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.initiator_target_sel[1]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.initiator_target_sel[0]} {-radix hexadecimal} }"/>
-    <tcl command="wave add tiny_soc_tb.u_dut.u_ic.target_initiator_sel -tag F0 -radix hexadecimal -expand -subitemconfig { {tiny_soc_tb.u_dut.u_ic.target_initiator_sel[4]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.target_initiator_sel[3]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.target_initiator_sel[2]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.target_initiator_sel[1]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.target_initiator_sel[0]} {-radix hexadecimal} }"/>
+    <tcl command="wave add tiny_soc_tb.u_dut.u_ic.target_initiator_sel -tag F0 -radix hexadecimal -expand -subitemconfig { {tiny_soc_tb.u_dut.u_ic.target_initiator_sel[1]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_ic.target_initiator_sel[0]} {-radix hexadecimal} }"/>
     <tcl command="wave add tiny_soc_tb.u_bram_bfm.clock -tag F0 -radix hexadecimal"/>
     <tcl command="wave add {tiny_soc_tb.u_dut.ic2bram_adr[31:0]} -tag F0 -radix hexadecimal"/>
     <tcl command="wave add {tiny_soc_tb.u_bram_bfm.adr[23:0]} -tag F0 -radix hexadecimal"/>
@@ -182,7 +182,7 @@
     <tcl command="wave add {tiny_soc_tb.u_dut.u_pic.irq[7:0]} -tag F0 -radix hexadecimal -subitemconfig { {tiny_soc_tb.u_dut.u_pic.irq[7]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_pic.irq[6]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_pic.irq[5]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_pic.irq[4]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_pic.irq[3]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_pic.irq[2]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_pic.irq[1]} {-radix hexadecimal} {tiny_soc_tb.u_dut.u_pic.irq[0]} {-radix hexadecimal} }"/>
     <tcl command="wave update on"/>
     <tcl command="wave top 0"/>
-    <tcl command="wave zoom range 819366 4000000"/>
+    <tcl command="wave zoom range 333704 2123076"/>
     <tcl command=""/>
    </wavetclcommands>
   </waveWindow>

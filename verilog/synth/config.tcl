@@ -4,7 +4,7 @@ set ::env(CLOCK_PORT) "clock"
 set ::env(CLOCK_PERIOD) "25"
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 850 850"
+set ::env(DIE_AREA) "0 0 1200 1200"
 set ::env(DESIGN_IS_CORE) 0
 
 #set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg

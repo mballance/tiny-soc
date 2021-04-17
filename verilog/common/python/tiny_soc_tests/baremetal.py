@@ -11,6 +11,8 @@ import pybfms
 from riscv_debug_bfms.riscv_debug_bfm import RiscvDebugTraceLevel, RiscvDebugBfm
 from tiny_soc_tests.ramconsole import RamConsole
 from assertpy import assert_that
+from uart_bfms.uart_bfm import UartBfm
+from uart_bfms.uart_bfm_sw_api import UartBfmSwAPI
 
 
 @cocotb.test()
@@ -19,13 +21,15 @@ async def test(top):
     
     u_bram = pybfms.find_bfm(".*u_bram")
     u_dbg_bfm : RiscvDebugBfm = pybfms.find_bfm(".*u_dbg_bfm")
+    u_uart_bfm : UartBfm = pybfms.find_bfm(".*u_uart_bfm")
     
+    uart_bfm_sw : UartBfmSwAPI = UartBfmSwAPI([u_uart_bfm])
+   
     sw_image = cocotb.plusargs["sw.image"]
     u_dbg_bfm.load_elf(sw_image)
-    u_dbg_bfm.set_trace_level(RiscvDebugTraceLevel.All)
-
-    ram_console = 0
-    ram_console_sz = 0
+    
+    u_dbg_bfm.register_export_api(UartBfmSwAPI)
+    u_dbg_bfm.set_export_impl(UartBfmSwAPI, uart_bfm_sw)
 
     print("Note: loading image " + sw_image)    
     with open(sw_image, "rb") as f:
@@ -33,12 +37,6 @@ async def test(top):
 
         symtab = elffile.get_section_by_name('.symtab')
 
-        ram_console = 0
-        ram_console_sz = 0
-        if symtab.get_symbol_by_name("ram_console") is not None:
-            ram_console = symtab.get_symbol_by_name("ram_console")[0]["st_value"]
-            ram_console_sz = symtab.get_symbol_by_name("CONFIG_RAM_CONSOLE_BUFFER_SIZE")[0]["st_value"]
-        
         # Find the section that contains the data we need
         section = None
         for i in range(elffile.num_sections()):
@@ -60,20 +58,11 @@ async def test(top):
                     addr += 4
                     j += 4    
 
-    if ram_console != 0:
-        console = RamConsole(ram_console, ram_console_sz)
-        u_dbg_bfm.add_memwrite_cb(console.memwrite)
-    
     # Wait for the main function to exit
     print("--> wait main")
     await u_dbg_bfm.on_exit("main")
     print("<-- wait main")
     
-    # Wait for the OS to go idle
-    print("--> wait idle")
-    await u_dbg_bfm.on_entry("idle")
-    print("<-- wait idle")
-   
     # Wait for all objections to be dropped
     await pybfms.objection.inst().wait()
     

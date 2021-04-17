@@ -53,6 +53,9 @@ module tiny_soc_tb(input clock);
 	wire[3:0]			bram_sel;
 	wire				bram_we;
 	
+	wire				uart_tx_o;
+	wire				uart_rx_i;
+	
 	tiny_soc u_dut(
 			.clock(			clock),
 			.reset(			reset),
@@ -60,7 +63,9 @@ module tiny_soc_tb(input clock);
 			.bram_dat_r(	bram_dat_r),
 			.bram_dat_w(	bram_dat_w),
 			.bram_sel(		bram_sel),
-			.bram_we(		bram_we)
+			.bram_we(		bram_we),
+			.uart_tx_o(		uart_tx_o),
+			.uart_rx_i(		uart_rx_i)
 		);
 	
 	generic_sram_byte_en_target_bfm #(
@@ -74,6 +79,12 @@ module tiny_soc_tb(input clock);
 			.sel(			bram_sel),
 			.we(			bram_we)
 		);
+	
+	uart_bfm u_uart_bfm (
+		.clock  (clock ), 
+		.reset  (reset ), 
+		.rx     (uart_tx_o   ), 
+		.tx     (uart_rx_i   ));
 
 `define U_CORE_PATH u_dut.u_core.u_core.u_core
 	wire 				rv_dbg_valid = `U_CORE_PATH .instr_complete;

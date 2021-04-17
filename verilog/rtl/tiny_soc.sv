@@ -15,7 +15,13 @@ module tiny_soc(
 		
 		// TODO: uart
 		
-		// TODO: periph spi
+		// periph spi
+		output				spi_sck,
+		output				spi_mosi,
+		input				spi_miso,
+		
+		output				uart_tx_o,
+		input				uart_rx_i,
 		
 		// TODO: mmio spi
 		
@@ -49,11 +55,13 @@ module tiny_soc(
 		localparam T_BRAM_IDX = 0;
 		localparam T_REG_IDX = (T_BRAM_IDX+1);
 	
-		localparam N_R_TARGETS = 4;
+		localparam N_R_TARGETS = 6;
 		localparam TR_DMA_IDX  = 0;
 		localparam TR_UART_IDX = (TR_DMA_IDX+1);
 		localparam TR_PIC_IDX  = (TR_UART_IDX+1);
 		localparam TR_PIT_IDX  = (TR_PIC_IDX+1);
+		localparam TR_SPI_IDX  = (TR_PIT_IDX+1);
+		localparam TR_GPIO_IDX  = (TR_SPI_IDX+1);
 		
 		`WB_WIRES_ARR(i2ic_, 32, 32, N_INITIATORS);
 		`WB_WIRES_ARR(ic2t_, 32, 32, N_TARGETS);
@@ -94,19 +102,45 @@ module tiny_soc(
 			.inta_o      (dma_irq    )); 
 
 		wire uart_irq;
-		wire tx_o;
-		wire tx_i;
 		fwuart_16550_wb u_uart (
 			.clock     (clock    ), 
 			.reset     (reset    ), 
 			`WB_CONNECT_ARR(rt_, ric2t_, TR_UART_IDX, 32, 32),
 			.irq       (uart_irq ), 
-			.tx_o      (tx_o     ), 
-			.rx_i      (rx_i     ), 
+			.tx_o      (uart_tx_o), 
+			.rx_i      (uart_rx_i), 
 			.cts_i     (1'b1     ), 
 			.dsr_i     (1'b1     ), 
 			.ri_i      (1'b0     ), 
 			.dcd_i     (1'b1     ));
+
+		fwgpio_wb #(
+			.N_PINS    (32   ), 
+			.N_BANKS   (4  )
+			) u_gpio (
+			.clock     (clock    ), 
+			.reset     (reset    ), 
+			`WB_CONNECT_ARR(rt_, ric2t_, TR_GPIO_IDX, 32, 32)
+			/*
+			,
+			.banks_o   (banks_o  ), 
+			.banks_i   (banks_i  ), 
+			.banks_oe  (banks_oe ), 
+			.pin_o     (pin_o    ), 
+			.pin_i     (pin_i    ), 
+			.pin_oe    (pin_oe   )
+			 */
+			);
+	
+		wire spi_irq;
+		fwspi_initiator u_spi (
+			.clock     (clock    ), 
+			.reset     (reset    ),
+			`WB_CONNECT_ARR(rt_, ric2t_, TR_SPI_IDX, 32, 32),
+			.inta      (spi_irq  ), 
+			.sck       (spi_sck  ), 
+			.mosi      (spi_mosi ), 
+			.miso      (spi_miso ));
 	
 		wire pit_irq;
 		fwpit_wb #(
@@ -123,7 +157,7 @@ module tiny_soc(
 				1'b0,
 				1'b0,
 				1'b0,
-				1'b0,
+				spi_irq,
 				pit_irq,
 				dma_irq,
 				uart_irq};
